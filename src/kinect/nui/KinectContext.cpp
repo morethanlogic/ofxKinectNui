@@ -178,12 +178,12 @@ namespace kinect {
 		*/
 		void KinectContext::ShutdownAll()
 		{
-			lock_.lock();
+			//lock_.lock();
 			int size = (int)kinects_.size();
 			for(int i = 0; i < size; i++){
 				Shutdown(*kinects_[i]);
 			}
-			lock_.unlock();
+			//lock_.unlock();
 		}
 
 		//----------------------------------------------------------
