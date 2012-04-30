@@ -130,7 +130,7 @@ protected:
 	ofPixels labelPixels; ///< label pixel data
 	ofPixels calibratedVideoPixels; ///< calibrated video data corresponding to depth camera
 	float* skeletons; ///< skeleton data
-	ofPoint** skeletonPoints; ///< skeleton points
+	ofPoint skeletonPoints[kinect::nui::SkeletonFrame::SKELETON_COUNT][kinect::nui::SkeletonData::POSITION_COUNT];	///< skeleton points
 	std::vector<BYTE> soundBuffer;	///< audio
 	
 	float audioBeamAngle, audioAngle, audioAngleConfidence;
@@ -139,6 +139,7 @@ protected:
 	bool bLoop; ///< is loop?
 	bool bVideo; ///< is video recorded?
 	bool bDepth; ///< is depth recorded?
+	bool bCalibratedVideo; ///< is depth recorded?
 	bool bLabel; ///< is label recorded?
 	bool bSkeleton; ///< is skeleton recorded?
 	bool bAudio;	///< is audio recorded?

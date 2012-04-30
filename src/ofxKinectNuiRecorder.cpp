@@ -66,7 +66,7 @@ void ofxKinectNuiRecorder::setup(ofxKinectNui& kinect, const string & filename){
 
 	skeletons = new float[kinect::nui::SkeletonFrame::SKELETON_COUNT * kinect::nui::SkeletonData::POSITION_COUNT * 3];
 
-	unsigned char bit = ((unsigned int)mKinect->grabsVideo() << 4) | ((unsigned int)mKinect->grabsDepth() << 3) | ((unsigned int)mKinect->grabsLabel() << 2) | ((unsigned int)mKinect->grabsSkeleton() << 1) | ((unsigned int)mKinect->grabsAudio());
+	unsigned char bit = ((unsigned int)mKinect->grabsVideo() << 5) | ((unsigned int)mKinect->grabsDepth() << 4) |  ((unsigned int)mKinect->grabsCalibratedVideo() << 3) | ((unsigned int)mKinect->grabsLabel() << 2) | ((unsigned int)mKinect->grabsSkeleton() << 1) | ((unsigned int)mKinect->grabsAudio());
 	fwrite(&bit, sizeof(char), 1, f);
 	int bit2 = (int)mKinect->getVideoResolution();
 	fwrite(&bit2, sizeof(int), 1, f);
@@ -127,8 +127,10 @@ void ofxKinectNuiRecorder::update() {
 	if(labelPixels != NULL){
 		fwrite(labelPixels, sizeof(char), depthWidth * depthHeight * 4, f);
 	}
-	
-	ofPoint** skeletonPoints = mKinect->getSkeletonPoints();
+
+	const ofPoint* skeletonPoints[kinect::nui::SkeletonFrame::SKELETON_COUNT];
+	int validCount = mKinect->getSkeletonPoints(skeletonPoints);
+
 	if(skeletonPoints != NULL){
 		int ptr = 0;
 		for(int i = 0; i < kinect::nui::SkeletonFrame::SKELETON_COUNT; i++){
