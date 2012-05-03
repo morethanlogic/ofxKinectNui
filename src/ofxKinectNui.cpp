@@ -11,6 +11,21 @@ const UINT color[ofxKinectNui::KINECT_PLAYERS_INDEX_NUM] = {
 	0xFF6600FF
 };
 
+// The test comparison between the pixel color (from labelPixels) and 
+// the UINT color was always false, so I added this ofColor array
+// to facilitate the color comparison.
+// Not clean, but it works.
+const ofColor colorID[ofxKinectNui::KINECT_PLAYERS_INDEX_NUM] = {
+	ofColor(255,255,255,0),
+	ofColor(0,0,255,255),
+	ofColor(0,255,0,255),
+	ofColor(255,0,0,255),
+	ofColor(0,255,255,255),
+	ofColor(255,0,255,255),
+	ofColor(255,255,0,255),
+	ofColor(128,0,255,255),
+};
+
 //---------------------------------------------------------------------------
 ofxKinectNui::ofxKinectNui(){
 
@@ -1056,8 +1071,13 @@ unsigned short ofxKinectNui::getDistanceAt(const ofPoint& depthPoint){
 */
 int ofxKinectNui::getPlayerIndexAt(int x, int y) {
 	for(int i = 0; i < KINECT_PLAYERS_INDEX_NUM; ++i){
-		if(labelPixels[depthWidth * y + x] & color[i]){
-			return i;
+		//if(labelPixels[depthWidth * y + x] & color[i]){ // does not work properly
+		if(labelPixels.getColor(x,y).a > 0){
+			ofColor c = labelPixels.getColor(x,y);
+			ofColor cID = colorID[i];
+			if (c.a == cID.a && c.r == cID.r && c.g == cID.g && c.b == cID.b) {
+				return i;
+			}
 		}
 	}
 	return 0;
