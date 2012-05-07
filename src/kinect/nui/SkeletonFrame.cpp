@@ -66,6 +66,18 @@ namespace kinect {
 
 			return false;
 		}
+
+		//----------------------------------------------------------
+		/**
+			@biref	Get the position of the joint in world coordinates
+		*/
+		void SkeletonFrame::getSkeletonPoint( int skeleton, int position, float *x, float *y, float *z ) const
+		{
+			*x = skeletonFrame_.SkeletonData[skeleton].SkeletonPositions[position].x;
+			*y = skeletonFrame_.SkeletonData[skeleton].SkeletonPositions[position].y;
+			*z = skeletonFrame_.SkeletonData[skeleton].SkeletonPositions[position].z;
+			return;
+		}
  
 		//----------------------------------------------------------
 		/**

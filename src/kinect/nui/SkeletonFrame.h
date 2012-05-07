@@ -131,6 +131,7 @@ namespace kinect {
 
 			bool IsFoundSkeleton() const;
 			bool IsFoundPosition() const;
+			void getSkeletonPoint(int skeletonIdx, int posIdx, float *x, float *y, float *z) const;
 
 			SkeletonData operator [] ( int index ) { return SkeletonData( skeletonFrame_.SkeletonData[index] ); }
 
