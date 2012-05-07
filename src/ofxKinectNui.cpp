@@ -437,8 +437,9 @@ void ofxKinectNui::update(){
 			for(int i = 0; i < kinect::nui::SkeletonFrame::SKELETON_COUNT; ++i){
 				if( skeleton[i].TrackingState() == NUI_SKELETON_TRACKED){
 					for(int j = 0; j < kinect::nui::SkeletonData::POSITION_COUNT; ++j){
-						kinect::nui::SkeletonData::SkeletonPoint p = skeleton[i].TransformSkeletonToDepthImage(j);
-						skeletonPoints[i][j] = ofPoint(p.x, p.y, p.depth);
+						//kinect::nui::SkeletonData::SkeletonPoint p = skeleton[i].TransformSkeletonToDepthImage(j);
+						//skeletonPoints[i][j] = ofPoint(p.x, p.y, p.depth);
+						skeleton.getSkeletonPoint(i,j,&(skeletonPoints[i][j].x), &(skeletonPoints[i][j].y), &(skeletonPoints[i][j].z));
 					}
 				}else{
 					// if skeleton is not tracked, set top z data to -1.
