@@ -1071,17 +1071,21 @@ unsigned short ofxKinectNui::getDistanceAt(const ofPoint& depthPoint){
 	@return	player index	0 when no player
 */
 int ofxKinectNui::getPlayerIndexAt(int x, int y) {
-	for(int i = 0; i < KINECT_PLAYERS_INDEX_NUM; ++i){
-		//if(labelPixels[depthWidth * y + x] & color[i]){ // does not work properly
-		if(labelPixels.getColor(x,y).a > 0){
-			ofColor c = labelPixels.getColor(x,y);
-			ofColor cID = colorID[i];
-			if (c.a == cID.a && c.r == cID.r && c.g == cID.g && c.b == cID.b) {
-				return i;
-			}
-		}
-	}
-	return 0;
+
+    // If the pixel has 0 alpha, we know there is no potentiel player
+    ofColor c = labelPixels.getColor(x,y);
+    if(c.a < FLT_EPSILON) 
+        return 0;
+
+    // We compare the color of the pixel to all possible player colors
+    for(int i = 0; i < KINECT_PLAYERS_INDEX_NUM; ++i) {
+        //if(labelPixels[depthWidth * y + x] & color[i]){ // does not work properly
+        ofColor cID = colorID[i];
+        if (c.a == cID.a && c.r == cID.r && c.g == cID.g && c.b == cID.b) {
+            return i;
+        }
+    }
+    return 0;
 }
 
 //---------------------------------------------------------------------------
