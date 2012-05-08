@@ -450,8 +450,15 @@ void ofxKinectNui::update(){
                     skeletonPoints2D[i][0].z = -1;
 					continue;
 				}
-			}
-		}
+            }
+		} else {
+            // Reset all skeleton data
+            for(int i = 0; i < kinect::nui::SkeletonFrame::SKELETON_COUNT; ++i){
+                // if skeleton is not tracked, set top z data to -1.
+				skeletonPoints[i][0].z = -1;
+                skeletonPoints2D[i][0].z = -1;
+            }
+        }
 	}
 
 	if(bGrabsAudio){
