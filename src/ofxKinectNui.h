@@ -182,6 +182,7 @@ protected:
 	ofTexture labelTexture;				///< label texture
 
 	ofPoint skeletonPoints[kinect::nui::SkeletonFrame::SKELETON_COUNT][kinect::nui::SkeletonData::POSITION_COUNT];	///< joint points of all skeletons
+    ofPoint skeletonPoints2D[kinect::nui::SkeletonFrame::SKELETON_COUNT][kinect::nui::SkeletonData::POSITION_COUNT];	///< joint points of all skeletons
 
 	int targetAngle;	///< target angle of kinect tilt
 	
