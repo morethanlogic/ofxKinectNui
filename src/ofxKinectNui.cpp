@@ -42,6 +42,8 @@ ofxKinectNui::ofxKinectNui(){
 	bIsFrameNew = false;
 	labelPixelsCv = NULL;
 
+    skeletonFound = false;
+
 	addKinectListener(this, &ofxKinectNui::pluggedFunc, &ofxKinectNui::unpluggedFunc);
 }
 
@@ -434,6 +436,7 @@ void ofxKinectNui::update(){
 		// Get the skeleton data of next frame
 		kinect::nui::SkeletonFrame skeleton = kinect.Skeleton().GetNextFrame();
 		if(skeleton.IsFoundSkeleton()){
+            skeletonFound = true;
 			skeleton.TransformSmooth();
 			for(int i = 0; i < kinect::nui::SkeletonFrame::SKELETON_COUNT; ++i){
 				if( skeleton[i].TrackingState() == NUI_SKELETON_TRACKED){
@@ -452,6 +455,7 @@ void ofxKinectNui::update(){
 				}
             }
 		} else {
+            skeletonFound = false;
             // Reset all skeleton data
             for(int i = 0; i < kinect::nui::SkeletonFrame::SKELETON_COUNT; ++i){
                 // if skeleton is not tracked, set top z data to -1.
@@ -459,7 +463,9 @@ void ofxKinectNui::update(){
                 skeletonPoints2D[i][0].z = -1;
             }
         }
-	}
+	} else {
+        skeletonFound = false;
+    }
 
 	if(bGrabsAudio){
 		soundBuffer = kinect.AudioStream().Read();
@@ -1183,6 +1189,15 @@ bool ofxKinectNui::isOpened(){
 */
 bool ofxKinectNui::isNearmode(){
 	return bIsNearmode;
+}
+
+//---------------------------------------------------------------------------
+/**
+	@brief	Determines whether this kinect detects a skeleton
+	@return	true when there is a skeleton found
+*/
+bool ofxKinectNui::isFoundSkeleton(){
+	return skeletonFound;
 }
 
 //---------------------------------------------------------------------------

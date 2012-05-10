@@ -122,6 +122,7 @@ public:
 	bool isConnected();
 	bool isOpened();
 	bool isNearmode();
+    bool isFoundSkeleton();
 
 	bool grabsVideo();
 	bool grabsDepth();
@@ -183,6 +184,8 @@ protected:
 
 	ofPoint skeletonPoints[kinect::nui::SkeletonFrame::SKELETON_COUNT][kinect::nui::SkeletonData::POSITION_COUNT];	///< joint points of all skeletons
     ofPoint skeletonPoints2D[kinect::nui::SkeletonFrame::SKELETON_COUNT][kinect::nui::SkeletonData::POSITION_COUNT];	///< joint points of all skeletons
+
+    bool skeletonFound;
 
 	int targetAngle;	///< target angle of kinect tilt
 	
